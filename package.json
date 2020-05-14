@@ -130,5 +130,6 @@
             "last 1 safari version",
             "ie 11"
         ]
-    }
+    },
+    "proxy": "http://localhost:3000"
 }
