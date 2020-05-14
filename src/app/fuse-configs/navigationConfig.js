@@ -22,6 +22,13 @@ const navigationConfig = [
 				type: 'item',
 				icon: 'whatshot',
 				url: '/example'
+			},
+			{
+				id: 'ranking-component',
+				title: 'Ranking',
+				type: 'item',
+				icon: 'whatshot',
+				url: '/ranking'
 			}
 		]
 	}
