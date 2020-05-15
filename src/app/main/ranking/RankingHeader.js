@@ -10,7 +10,7 @@ import * as Actions from './store/actions';
 
 function RankingHeader(props) {
 	const dispatch = useDispatch();
-	const searchText = useSelector(({ Ranking }) => Ranking.products.searchText);
+	const searchText = useSelector(({ Ranking }) => Ranking.ranking.searchText);
 	const mainTheme = useSelector(({ fuse }) => fuse.settings.mainTheme);
 
 	return (
@@ -41,7 +41,7 @@ function RankingHeader(props) {
 								inputProps={{
 									'aria-label': 'Search'
 								}}
-								onChange={ev => dispatch(Actions.setProductsSearchText(ev))}
+								onChange={ev => dispatch(Actions.setSearchText(ev))}
 							/>
 						</Paper>
 					</FuseAnimate>

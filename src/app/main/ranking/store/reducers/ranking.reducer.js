@@ -5,15 +5,15 @@ const initialState = {
 	searchText: ''
 };
 
-const ordersReducer = (state = initialState, action) => {
+const rankingReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case Actions.GET_ORDERS: {
+		case Actions.GET_RANKING: {
 			return {
 				...state,
 				data: action.payload
 			};
 		}
-		case Actions.SET_ORDERS_SEARCH_TEXT: {
+		case Actions.SET_SEARCH_TEXT: {
 			return {
 				...state,
 				searchText: action.searchText
@@ -25,4 +25,4 @@ const ordersReducer = (state = initialState, action) => {
 	}
 };
 
-export default ordersReducer;
+export default rankingReducer;

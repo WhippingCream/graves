@@ -1,14 +1,8 @@
 import { combineReducers } from 'redux';
-import order from './order.reducer';
-import orders from './orders.reducer';
-import product from './product.reducer';
-import products from './products.reducer';
+import ranking from './ranking.reducer';
 
 const reducer = combineReducers({
-	products,
-	product,
-	orders,
-	order
+	ranking,
 });
 
 export default reducer;

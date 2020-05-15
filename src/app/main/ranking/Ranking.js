@@ -5,7 +5,7 @@ import reducer from './store/reducers';
 import RankingHeader from './RankingHeader';
 import RankingTable from './RankingTable';
 
-function Products() {
+function Ranking() {
 	return (
 		<FusePageCarded
 			classes={{
@@ -19,4 +19,4 @@ function Products() {
 	);
 }
 
-export default withReducer('Ranking', reducer)(Products);
+export default withReducer('Ranking', reducer)(Ranking);
