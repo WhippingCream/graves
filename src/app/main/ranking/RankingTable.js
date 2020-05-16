@@ -75,16 +75,7 @@ function RankingTable(props) {
 						{_.orderBy(
 							data,
 							[
-								o => {
-									switch (order.id) {
-										case 'categories': {
-											return o.categories[0];
-										}
-										default: {
-											return o[order.id];
-										}
-									}
-								}
+								o => o[order.id]
 							],
 							[order.direction]
 						)
