@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import FuseUtils from '@fuse/utils';
 import authRoleExamplesConfigs from 'app/main/auth/authRoleExamplesConfigs';
-import MyInfoConfig from 'app/main/MyInfo/MyInfoConfig';
+import MyInfoConfig from 'app/main/myinfo/MyInfoConfig';
 import RankingConfig from 'app/main/ranking/RankingConfig';
 import LoginPageConfig from 'app/main/login/LoginPageConfig';
 

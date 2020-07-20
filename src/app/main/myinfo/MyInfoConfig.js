@@ -9,7 +9,7 @@ const MyInfoConfig = {
 	},
 	routes: [
 		{
-            path: '/myinfo',
+			path: '/myinfo',
 			auth: authRoles.user,
 			component: MyInfo
 		}

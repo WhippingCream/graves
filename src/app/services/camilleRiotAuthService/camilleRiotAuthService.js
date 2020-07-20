@@ -1,8 +1,8 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 
-const qs = require('querystring');
 const CAMILLE_RIOT_TOKEN_KEY = 'camille_riot_token';
+const qs = require('querystring');
 /* eslint-disable camelcase */
 
 class CamilleRiotAuthService extends FuseUtils.EventEmitter {
@@ -47,7 +47,7 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 
 	signInWithIdAndPassword = (id, password) => {
 		return new Promise((resolve, reject) => {
-			axios.post('/token/login', qs.stringify({ id, password })).then(response => {
+			axios.post('/user/login', qs.stringify({ id, password })).then(response => {
 				if (response.status === 200) {
 					this.setSession(response.data.loginResult.token);
 					resolve(response.data);
