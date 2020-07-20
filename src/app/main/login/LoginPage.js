@@ -1,4 +1,5 @@
 import FuseAnimate from '@fuse/core/FuseAnimate';
+import FuseSplashScreen from '@fuse/core/FuseSplashScreen';
 import { useForm } from '@fuse/hooks';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -8,7 +9,7 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import * as authActions from 'app/auth/store/actions';
 
@@ -29,6 +30,8 @@ function LoginPage() {
 		remember: true
 	});
 
+	const [isPending, setPending] = useState(false);
+
 	function isFormValid() {
 		return form.id.length > 0 && form.password.length > 0;
 	}
@@ -37,7 +40,10 @@ function LoginPage() {
 		dispatch(authActions.submitLogin(form));
 		ev.preventDefault();
 		resetForm();
+		setPending(true);
 	}
+
+	if (isPending) return <FuseSplashScreen />;
 
 	return (
 		<div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
