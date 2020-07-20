@@ -1,11 +1,12 @@
 import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+
+const qs = require('querystring');
+const CAMILLE_RIOT_TOKEN_KEY = 'camille_riot_token';
 /* eslint-disable camelcase */
 
-class JwtService extends FuseUtils.EventEmitter {
+class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 	init() {
-		this.setInterceptors();
 		this.handleAuthentication();
 	}
 
@@ -32,7 +33,6 @@ class JwtService extends FuseUtils.EventEmitter {
 
 		if (!access_token) {
 			this.emit('onNoAccessToken');
-
 			return;
 		}
 
@@ -45,36 +45,16 @@ class JwtService extends FuseUtils.EventEmitter {
 		}
 	};
 
-	createUser = data => {
+	signInWithIdAndPassword = (id, password) => {
 		return new Promise((resolve, reject) => {
-			axios.post('/api/auth/register', data).then(response => {
-				if (response.data.user) {
-					this.setSession(response.data.access_token);
-					resolve(response.data.user);
+			axios.post('/token/login', qs.stringify({ id, password })).then(response => {
+				if (response.status === 200) {
+					this.setSession(response.data.loginResult.token);
+					resolve(response.data);
 				} else {
-					reject(response.data.error);
+					reject(response.data);
 				}
 			});
-		});
-	};
-
-	signInWithEmailAndPassword = (email, password) => {
-		return new Promise((resolve, reject) => {
-			axios
-				.get('/api/auth', {
-					data: {
-						email,
-						password
-					}
-				})
-				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
-					} else {
-						reject(response.data.error);
-					}
-				});
 		});
 	};
 
@@ -110,10 +90,10 @@ class JwtService extends FuseUtils.EventEmitter {
 
 	setSession = access_token => {
 		if (access_token) {
-			localStorage.setItem('jwt_access_token', access_token);
+			localStorage.setItem(CAMILLE_RIOT_TOKEN_KEY, access_token);
 			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 		} else {
-			localStorage.removeItem('jwt_access_token');
+			localStorage.removeItem(CAMILLE_RIOT_TOKEN_KEY);
 			delete axios.defaults.headers.common.Authorization;
 		}
 	};
@@ -122,25 +102,41 @@ class JwtService extends FuseUtils.EventEmitter {
 		this.setSession(null);
 	};
 
-	isAuthTokenValid = access_token => {
-		if (!access_token) {
-			return false;
-		}
-		const decoded = jwtDecode(access_token);
-		const currentTime = Date.now() / 1000;
-		if (decoded.exp < currentTime) {
-			console.warn('access token expired');
+	isAuthenticated = () => {
+		if (!this.lock) {
 			return false;
 		}
 
-		return true;
+		const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+		const isNotExpired = new Date().getTime() < expiresAt;
+		if (isNotExpired) {
+			return true;
+		}
+
+		this.logout();
+		return false;
+	};
+
+	isAuthTokenValid = access_token => {
+		return access_token;
+		// if (!access_token) {
+		// 	return false;
+		// }
+		// const decoded = jwtDecode(access_token);
+		// const currentTime = Date.now() / 1000;
+		// if (decoded.exp < currentTime) {
+		// 	console.warn('access token expired');
+		// 	return false;
+		// }
+
+		// return true;
 	};
 
 	getAccessToken = () => {
-		return window.localStorage.getItem('jwt_access_token');
+		return window.localStorage.getItem(CAMILLE_RIOT_TOKEN_KEY);
 	};
 }
 
-const instance = new JwtService();
+const instance = new CamilleRiotAuthService();
 
 export default instance;

@@ -9,12 +9,12 @@ const config = {
 			position: 'left'
 		},
 		toolbar: {
-			display: true,
+			display: false,
 			style: 'fixed',
 			position: 'below'
 		},
 		footer: {
-			display: true,
+			display: false,
 			style: 'fixed',
 			position: 'below'
 		},
@@ -22,7 +22,7 @@ const config = {
 			display: true
 		},
 		rightSidePanel: {
-			display: true
+			display: false
 		}
 	},
 	form: {
