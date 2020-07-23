@@ -26,9 +26,11 @@ function RankingTable(props) {
 		id: null
 	});
 
+	const groupName = useSelector(state => state.auth.user.groupList.result[0].groupName);
+
 	useEffect(() => {
-		dispatch(Actions.getRanking());
-	}, [dispatch]);
+		dispatch(Actions.getRanking(groupName));
+	}, [dispatch, groupName]);
 
 	useEffect(() => {
 		if (searchText.length !== 0) {
@@ -65,30 +67,14 @@ function RankingTable(props) {
 		<div className="w-full flex flex-col">
 			<FuseScrollbars className="flex-grow overflow-x-auto">
 				<Table className="min-w-xl" aria-labelledby="tableTitle">
-					<RankingTableHaed
-						order={order}
-						onRequestSort={handleRequestSort}
-						rowCount={data.length}
-					/>
+					<RankingTableHaed order={order} onRequestSort={handleRequestSort} rowCount={data.length} />
 
 					<TableBody>
-						{_.orderBy(
-							data,
-							[
-								o => o[order.id]
-							],
-							[order.direction]
-						)
+						{_.orderBy(data, [o => o[order.id]], [order.direction])
 							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							.map((n, i) => {
 								return (
-									<TableRow
-										className="h-64 cursor-pointer"
-										hover
-										role="checkbox"
-										tabIndex={-1}
-										key={n.riotId}
-									>
+									<TableRow className="h-64 cursor-pointer" hover role="checkbox" tabIndex={-1} key={n.riotId}>
 										<TableCell component="th" scope="row">
 											{n.ranking}
 										</TableCell>

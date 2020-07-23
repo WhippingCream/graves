@@ -36,6 +36,7 @@ export function setUserData(user) {
 
 		// 임시 코드 (by ZeroBoom)
 		user.role = ['admin'];
+		user.reprGroupId = user.groupList.result[0].groupId;
 
 		dispatch({
 			type: SET_USER_DATA,
