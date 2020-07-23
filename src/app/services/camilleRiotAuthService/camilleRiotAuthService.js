@@ -47,7 +47,7 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 
 	signInWithIdAndPassword = (id, password) => {
 		return new Promise((resolve, reject) => {
-			axios.post('/user/login', qs.stringify({ id, password })).then(response => {
+			axios.post('/api/user/login', qs.stringify({ id, password })).then(response => {
 				if (response.status === 200) {
 					this.setSession(response.data.loginResult.token);
 					resolve(response.data);
