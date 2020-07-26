@@ -66,7 +66,7 @@ function MyInfoTable(props) {
 		return `http://ddragon.leagueoflegends.com/cdn/${championInfos.version}/img/champion/${info.id}.png`;
 	};
 
-	if (!championInfos || championInfos.length === 0) {
+	if (!championInfos) {
 		return <FuseLoading />;
 	}
 
