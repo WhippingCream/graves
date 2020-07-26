@@ -1,7 +1,7 @@
 import * as Actions from '../actions';
 
 const initialState = {
-	scoreInfo: {}
+	scoreInfo: null
 };
 
 const myInfoReducer = (state = initialState, action) => {
@@ -9,7 +9,8 @@ const myInfoReducer = (state = initialState, action) => {
 		case Actions.GET_MYINFO: {
 			return {
 				...state,
-				scoreInfo: action.payload
+				scoreInfo: action.payload.userInfo,
+				championScore: action.payload.championScore
 			};
 		}
 		default: {

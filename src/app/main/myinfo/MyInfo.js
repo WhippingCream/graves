@@ -1,8 +1,10 @@
+import React, { useEffect } from 'react';
+import FuseLoading from '@fuse/core/FuseLoading';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
-import React, { useEffect } from 'react';
+import MyInfoTable from './MyInfoTable';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
 
@@ -21,6 +23,10 @@ function MyInfoPage(props) {
 	useEffect(() => {
 		dispatch(Actions.getMyInfo(user.groupList.result[0].groupId, user.loginResult.result.accountId));
 	}, [dispatch, user]);
+
+	if (!scoreInfo) {
+		return <FuseLoading />;
+	}
 
 	return (
 		<FusePageSimple
@@ -54,6 +60,8 @@ function MyInfoPage(props) {
 						<br />
 						승률:{(scoreInfo.win / (scoreInfo.win + scoreInfo.lose)) * 100}%
 					</h4>
+
+					<MyInfoTable />
 				</div>
 			}
 		/>

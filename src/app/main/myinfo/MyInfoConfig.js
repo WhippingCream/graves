@@ -1,5 +1,5 @@
 import { authRoles } from 'app/auth';
-import MyInfo from './MyInfo';
+import React from 'react';
 
 const MyInfoConfig = {
 	settings: {
@@ -11,7 +11,7 @@ const MyInfoConfig = {
 		{
 			path: '/myinfo',
 			auth: authRoles.user,
-			component: MyInfo
+			component: React.lazy(() => import('./MyInfo'))
 		}
 	]
 };
