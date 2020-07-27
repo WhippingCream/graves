@@ -58,7 +58,7 @@ function MyInfoPage(props) {
 						<br />
 						패:{scoreInfo.lose}
 						<br />
-						승률:{(scoreInfo.win / (scoreInfo.win + scoreInfo.lose)) * 100}%
+						승률:{Math.ceil((scoreInfo.win / (scoreInfo.win + scoreInfo.lose)) * 100)}%
 					</h4>
 
 					<MyInfoTable />

@@ -66,62 +66,63 @@ function MyInfoTable(props) {
 		return `http://ddragon.leagueoflegends.com/cdn/${championInfos.version}/img/champion/${info.id}.png`;
 	};
 
-	if (!championInfos) {
+	if (!championInfos.data) {
 		return <FuseLoading />;
 	}
 
 	return (
 		<div className="w-full flex flex-col">
-			({data.length > 0} ??
 			<FuseScrollbars className="flex-grow overflow-x-auto">
 				<Table className="min-w-xl" aria-labelledby="tableTitle">
 					<MyInfoTableHead order={order} onRequestSort={handleRequestSort} rowCount={data.length} />
+					{data.length > 0 ? (
+						<TableBody>
+							{_.orderBy(data, [o => o[order.id]], [order.direction])
+								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+								.map((n, i) => {
+									return (
+										<TableRow className="h-64 cursor-pointer" hover role="checkbox" tabIndex={-1} key={n.index}>
+											<TableCell component="th" scope="row">
+												{n.index}
+											</TableCell>
 
-					<TableBody>
-						{_.orderBy(data, [o => o[order.id]], [order.direction])
-							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-							.map((n, i) => {
-								return (
-									<TableRow className="h-64 cursor-pointer" hover role="checkbox" tabIndex={-1} key={n.index}>
-										<TableCell component="th" scope="row">
-											{n.index}
-										</TableCell>
+											<TableCell component="th" scope="row">
+												<img src={getChampImageURI(n.championId)} width="40" height="40" alt="thumbnail" />{' '}
+												{getChampInfo(n.championId).name}
+											</TableCell>
 
-										<TableCell component="th" scope="row">
-											<img src={getChampImageURI(n.championId)} width="40" height="40" alt="thumbnail" />{' '}
-											{getChampInfo(n.championId).name}
-										</TableCell>
+											<TableCell component="th" scope="row">
+												{n.win}승 {n.lose}패 {n.winRate}%
+											</TableCell>
 
-										<TableCell component="th" scope="row">
-											{n.win}승 {n.lose}패 {n.winRate}%
-										</TableCell>
-
-										<TableCell component="th" scope="row">
-											{n.kda.toFixed(2)} {n.averageKills.toFixed(1)} / {n.averageDeaths.toFixed(1)} /{' '}
-											{n.averageAssists.toFixed(1)})
-										</TableCell>
-									</TableRow>
-								);
-							})}
-					</TableBody>
+											<TableCell component="th" scope="row">
+												{n.kda.toFixed(2)} ({n.averageKills.toFixed(1)} / {n.averageDeaths.toFixed(1)} /{' '}
+												{n.averageAssists.toFixed(1)})
+											</TableCell>
+										</TableRow>
+									);
+								})}
+						</TableBody>
+					) : null}
 				</Table>
 			</FuseScrollbars>
-			<TablePagination
-				className="overflow-hidden"
-				component="div"
-				count={data.length}
-				rowsPerPage={rowsPerPage}
-				page={page}
-				backIconButtonProps={{
-					'aria-label': 'Previous Page'
-				}}
-				nextIconButtonProps={{
-					'aria-label': 'Next Page'
-				}}
-				onChangePage={handleChangePage}
-				onChangeRowsPerPage={handleChangeRowsPerPage}
-			/>
-			)
+			{data.length > 0 ? (
+				<TablePagination
+					className="overflow-hidden"
+					component="div"
+					count={data.length}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					backIconButtonProps={{
+						'aria-label': 'Previous Page'
+					}}
+					nextIconButtonProps={{
+						'aria-label': 'Next Page'
+					}}
+					onChangePage={handleChangePage}
+					onChangeRowsPerPage={handleChangeRowsPerPage}
+				/>
+			) : null}
 		</div>
 	);
 }
