@@ -4,6 +4,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
+import MyInfoHeader from './MyInfoHeader';
 import MyInfoTable from './MyInfoTable';
 import reducer from './store/reducers';
 import * as Actions from './store/actions';
@@ -33,11 +34,7 @@ function MyInfoPage(props) {
 			classes={{
 				root: classes.layoutRoot
 			}}
-			header={
-				<div className="p-24">
-					<h4>내 정보</h4>
-				</div>
-			}
+			header={<MyInfoHeader />}
 			contentToolbar={
 				<div className="px-24">
 					<h4>Content Toolbar</h4>
