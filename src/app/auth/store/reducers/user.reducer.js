@@ -3,19 +3,22 @@ import * as Actions from '../actions';
 const initialState = {
 	role: [], // guest
 	data: {
-		displayName: 'John Doe',
-		photoURL: 'assets/images/avatars/Velazquez.jpg',
-		email: 'johndoe@withinpixels.com',
-		shortcuts: ['calendar', 'mail', 'contacts', 'todo']
+		displayName: '',
+		photoURL: 'assets/images/avatars/Ahri.jpeg'
 	}
 };
 
 const user = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.SET_USER_DATA: {
+			const { groupName } = action.payload.groupList.result.find(elem => elem.groupId === action.payload.reprGroupId);
 			return {
 				...initialState,
-				...action.payload
+				...action.payload,
+				data: {
+					...initialState.data,
+					displayName: groupName
+				}
 			};
 		}
 		case Actions.REMOVE_USER_DATA: {
