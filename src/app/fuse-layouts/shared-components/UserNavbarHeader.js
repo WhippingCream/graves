@@ -50,7 +50,7 @@ function UserNavbarHeader(props) {
 			classes={{ root: classes.root }}
 			className="user relative flex flex-col items-center justify-center pt-24 pb-64 mb-32 z-0"
 		>
-			<Typography className="username text-16 whitespace-no-wrap" color="inherit">
+			<Typography className="username text-20 whitespace-no-wrap" color="inherit">
 				{user.data.displayName}
 			</Typography>
 			<Avatar
