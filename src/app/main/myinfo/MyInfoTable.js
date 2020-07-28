@@ -87,8 +87,11 @@ function MyInfoTable(props) {
 											</TableCell>
 
 											<TableCell component="th" scope="row">
-												<img src={getChampImageURI(n.championId)} width="40" height="40" alt="thumbnail" />{' '}
-												{getChampInfo(n.championId).name}
+												<div className="flex items-center">
+													<img width="40" height="40" src={getChampImageURI(n.championId)} alt="thumbnail" />{' '}
+													&nbsp;&nbsp;
+													{getChampInfo(n.championId).name}
+												</div>
 											</TableCell>
 
 											<TableCell component="th" scope="row">

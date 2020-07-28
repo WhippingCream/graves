@@ -10,7 +10,8 @@ const myInfoReducer = (state = initialState, action) => {
 			return {
 				...state,
 				scoreInfo: action.payload.userInfo,
-				championScore: action.payload.championScore
+				championScore: action.payload.championScore,
+				summonerInfo: action.payload.summonerInfo
 			};
 		}
 		default: {

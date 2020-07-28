@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FusePageSimple from '@fuse/core/FusePageSimple';
+import { Grid, Card, CardContent, Typography, CardMedia, withStyles } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
@@ -10,8 +11,41 @@ import reducer from './store/reducers';
 import * as Actions from './store/actions';
 
 const useStyles = makeStyles(theme => ({
-	layoutRoot: {}
+	layoutRoot: {},
+	media: {
+		alignItems: 'center',
+		padding: 30,
+		width: 120,
+		height: 120
+	},
+	card: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		minWidth: 300,
+		minHeight: 180
+	},
+	details: {
+		display: 'flex',
+		flexDirection: 'column'
+	},
+	content: {
+		flex: '1 0 auto'
+	}
 }));
+
+const TierTextTypography = withStyles({
+	root: {
+		color: '#4374D9',
+		fontWeight: 'bold'
+	}
+})(Typography);
+
+const RatingTextTypography = withStyles({
+	root: {
+		fontWeight: 'bold'
+	}
+})(Typography);
 
 function MyInfoPage(props) {
 	const classes = useStyles(props);
@@ -20,6 +54,18 @@ function MyInfoPage(props) {
 
 	const user = useSelector(state => state.auth.user);
 	const scoreInfo = useSelector(({ MyInfo }) => MyInfo.myInfo.scoreInfo);
+	const summonerInfo = useSelector(({ MyInfo }) => MyInfo.myInfo.summonerInfo);
+
+	const getSoloRankTierName = () => {
+		const tier = summonerInfo.rankTier;
+		if (tier === 'UNRANKED') return 'UNRANKED';
+
+		return tier.split(' ')[0];
+	};
+
+	const getRatingTierName = () => {
+		return scoreInfo.ratingTier.split(' ')[0];
+	};
 
 	useEffect(() => {
 		dispatch(Actions.getMyInfo(user.groupList.result[0].groupId, user.loginResult.result.accountId));
@@ -35,29 +81,63 @@ function MyInfoPage(props) {
 				root: classes.layoutRoot
 			}}
 			header={<MyInfoHeader />}
-			contentToolbar={
-				<div className="px-24">
-					<h4>Content Toolbar</h4>
-				</div>
-			}
 			content={
 				<div className="p-24">
-					<h4>
-						레이팅:{scoreInfo.defaultRating + scoreInfo.additionalRating}
-						<br />
-						기본 레이팅:{scoreInfo.defaultRating}
-						<br />
-						추가 레이팅:{scoreInfo.additionalRating}
-						<br />
-						총:{scoreInfo.win + scoreInfo.lose}
-						<br />
-						승:{scoreInfo.win}
-						<br />
-						패:{scoreInfo.lose}
-						<br />
-						승률:{Math.ceil((scoreInfo.win / (scoreInfo.win + scoreInfo.lose)) * 100)}%
-					</h4>
-
+					<Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
+						<Grid item xs={3} key={0}>
+							<Card className={classes.card}>
+								<CardMedia
+									className={classes.media}
+									image={`/assets/images/ranked-emblems/Emblem_${getSoloRankTierName()}.png`}
+								/>
+								<div className={classes.details}>
+									<CardContent className={classes.content}>
+										<Typography variant="h6" color="textSecondary">
+											Solo Rank
+										</Typography>
+										<TierTextTypography variant="h5" gutterBottom>
+											{summonerInfo.rankTier}
+										</TierTextTypography>
+										<Typography variant="body2" color="textSecondary" component="p">
+											{summonerInfo.rankWin}승 {summonerInfo.rankLose}패
+										</Typography>
+										<Typography variant="body2" color="textSecondary" component="p">
+											승률 {Math.ceil((summonerInfo.rankWin / (summonerInfo.rankWin + summonerInfo.rankLose)) * 100)}%
+										</Typography>
+									</CardContent>
+								</div>
+							</Card>
+						</Grid>
+						<Grid item xs={3} key={1}>
+							<Card className={classes.card}>
+								<CardMedia
+									className={classes.media}
+									image={`/assets/images/ranked-emblems/Emblem_${getRatingTierName()}.png`}
+								/>
+								<div className={classes.details}>
+									<CardContent className={classes.content}>
+										<Typography variant="h6" color="textSecondary">
+											Custom Rating
+										</Typography>
+										<TierTextTypography variant="h5" color="primary" gutterBottom>
+											{scoreInfo.ratingTier}
+										</TierTextTypography>
+										<RatingTextTypography variant="body1" gutterBottom>
+											{scoreInfo.defaultRating + scoreInfo.additionalRating}p ({scoreInfo.defaultRating} +{' '}
+											{scoreInfo.additionalRating})
+										</RatingTextTypography>
+										<Typography variant="body2" color="textSecondary">
+											{scoreInfo.win}승 {scoreInfo.lose}패
+										</Typography>
+										<Typography variant="body2" color="textSecondary">
+											승률 {Math.ceil((scoreInfo.win / (scoreInfo.win + scoreInfo.lose)) * 100)}%
+										</Typography>
+									</CardContent>
+								</div>
+							</Card>
+						</Grid>
+					</Grid>
+					<p />
 					<MyInfoTable />
 				</div>
 			}
