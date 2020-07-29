@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import FuseLoading from '@fuse/core/FuseLoading';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import { Grid, Card, CardContent, Typography, CardMedia, withStyles } from '@material-ui/core/';
+import { Grid, Card, CardContent, Typography, CardMedia, Button, withStyles } from '@material-ui/core/';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
@@ -67,6 +67,10 @@ function MyInfoPage(props) {
 		return scoreInfo.ratingTier.split(' ')[0];
 	};
 
+	const getProfileIconURI = () => {
+		return `http://ddragon.leagueoflegends.com/cdn/10.15.1/img/profileicon/${summonerInfo.profileIconId}.png`;
+	};
+
 	useEffect(() => {
 		dispatch(Actions.getMyInfo(user.groupList.result[0].groupId, user.loginResult.result.accountId));
 	}, [dispatch, user]);
@@ -84,7 +88,23 @@ function MyInfoPage(props) {
 			content={
 				<div className="p-24">
 					<Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
-						<Grid item xs={3} key={0}>
+						<Grid item key={0}>
+							<img width="128" height="128" src={getProfileIconURI()} alt="ProfileIcon" />
+						</Grid>
+						<Grid item key={1}>
+							<Typography variant="h4">{summonerInfo.name}</Typography>
+							<Typography variant="body2" color="textSecondary" gutterBottom>
+								Lv. {summonerInfo.summonerLevel}
+							</Typography>
+							<br />
+							<Button variant="contained" color="secondary" size="large">
+								챔피언 전적 갱신
+							</Button>
+						</Grid>
+					</Grid>
+					<br />
+					<Grid container spacing={2} direction="row" justify="flex-start" alignItems="flex-start">
+						<Grid item key={0}>
 							<Card className={classes.card}>
 								<CardMedia
 									className={classes.media}
@@ -108,7 +128,7 @@ function MyInfoPage(props) {
 								</div>
 							</Card>
 						</Grid>
-						<Grid item xs={3} key={1}>
+						<Grid item key={1}>
 							<Card className={classes.card}>
 								<CardMedia
 									className={classes.media}
@@ -137,7 +157,7 @@ function MyInfoPage(props) {
 							</Card>
 						</Grid>
 					</Grid>
-					<p />
+					<br />
 					<MyInfoTable />
 				</div>
 			}
