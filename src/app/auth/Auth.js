@@ -27,13 +27,11 @@ class Auth extends Component {
 
 			if (camilleRiotAuthService.isAuthenticated()) {
 				this.props.showMessage({ message: 'Logging in with CailleRiotAuth' });
-				camilleRiotAuthService.getUserData().then(tokenData => {
-					this.props.setUserDataCamilleRiotAuth(tokenData);
-
-					resolve();
-
-					this.props.showMessage({ message: 'Logged in with CailleRiotAuth' });
-				});
+				resolve();
+				// camilleRiotAuthService.getUserData().then(tokenData => {
+				// 	this.props.setUserDataCamilleRiotAuth(tokenData);
+				// 	this.props.showMessage({ message: 'Logged in with CailleRiotAuth' });
+				// });
 			} else {
 				resolve();
 			}

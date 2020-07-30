@@ -10,8 +10,17 @@ const initialState = {
 
 const user = (state = initialState, action) => {
 	switch (action.type) {
+		case Actions.SET_GROUP_LIST: {
+			return {
+				...initialState,
+				...action.payload,
+				role: ['admin'], // 임시코드 (by ZeroBoom)
+				reprGroupId: action.payload[0].groupId
+			};
+		}
+
 		case Actions.SET_USER_DATA: {
-			const { groupName } = action.payload.groupList.result.find(elem => elem.groupId === action.payload.reprGroupId);
+			const { groupName } = action.payload.groupList.find(elem => elem.groupId === action.payload.reprGroupId);
 			return {
 				...initialState,
 				...action.payload,

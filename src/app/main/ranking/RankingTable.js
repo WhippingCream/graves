@@ -26,7 +26,7 @@ function RankingTable(props) {
 		id: 'rating'
 	});
 
-	const groupName = useSelector(state => state.auth.user.groupList.result[0].groupName);
+	const groupName = useSelector(state => state.auth.user.groupList[0].groupName);
 
 	useEffect(() => {
 		dispatch(Actions.getRanking(groupName));

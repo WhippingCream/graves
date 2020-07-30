@@ -1,3 +1,4 @@
+import axios from 'axios';
 import camilleRiotAuthService from 'app/services/camilleRiotAuthService';
 import * as UserActions from './user.actions';
 
@@ -9,10 +10,20 @@ export function submitLogin({ id, password }) {
 		camilleRiotAuthService
 			.signInWithIdAndPassword(id, password)
 			.then(user => {
-				dispatch(UserActions.setUserData(user));
+				axios.get('/api/user/getGroupList').then(response => {
+					if (response.status !== 200) {
+						return;
+					}
+
+					dispatch({
+						type: UserActions.SET_GROUP_LIST,
+						payload: response
+					});
+				});
 
 				return dispatch({
-					type: LOGIN_SUCCESS
+					type: LOGIN_SUCCESS,
+					payload: user
 				});
 			})
 			.catch(error => {

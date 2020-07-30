@@ -2,6 +2,7 @@ import FuseUtils from '@fuse/utils/FuseUtils';
 import axios from 'axios';
 
 const CAMILLE_RIOT_TOKEN_KEY = 'camille_riot_token';
+const CAMILLE_RIOT_TOKEN_EXPIRES_AT = 'camille_riot_token_expires_at';
 const qs = require('querystring');
 /* eslint-disable camelcase */
 
@@ -29,19 +30,19 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 	};
 
 	handleAuthentication = () => {
-		const access_token = this.getAccessToken();
+		const accessToken = this.getAccessToken();
 
-		if (!access_token) {
+		if (!accessToken) {
 			this.emit('onNoAccessToken');
 			return;
 		}
 
-		if (this.isAuthTokenValid(access_token)) {
-			this.setSession(access_token);
+		if (this.isAuthTokenValid(accessToken)) {
+			this.setSession(accessToken);
 			this.emit('onAutoLogin', true);
 		} else {
 			this.setSession(null);
-			this.emit('onAutoLogout', 'access_token expired');
+			this.emit('onAutoLogout', 'accessToken expired');
 		}
 	};
 
@@ -58,29 +59,29 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 		});
 	};
 
-	signInWithToken = () => {
-		return new Promise((resolve, reject) => {
-			axios
-				.get('/api/auth/access-token', {
-					data: {
-						access_token: this.getAccessToken()
-					}
-				})
-				.then(response => {
-					if (response.data.user) {
-						this.setSession(response.data.access_token);
-						resolve(response.data.user);
-					} else {
-						this.logout();
-						Promise.reject(new Error('Failed to login with token.'));
-					}
-				})
-				.catch(error => {
-					this.logout();
-					Promise.reject(new Error('Failed to login with token.'));
-				});
-		});
-	};
+	// signInWithToken = () => {
+	// 	return new Promise((resolve, reject) => {
+	// 		axios
+	// 			.get('/api/auth/access-token', {
+	// 				data: {
+	// 					access_token: this.getAccessToken()
+	// 				}
+	// 			})
+	// 			.then(response => {
+	// 				if (response.data.user) {
+	// 					this.setSession(response.data.access_token);
+	// 					resolve(response.data.user);
+	// 				} else {
+	// 					this.logout();
+	// 					Promise.reject(new Error('Failed to login with token.'));
+	// 				}
+	// 			})
+	// 			.catch(error => {
+	// 				this.logout();
+	// 				Promise.reject(new Error('Failed to login with token.'));
+	// 			});
+	// 	});
+	// };
 
 	updateUserData = user => {
 		return axios.post('/api/auth/user/update', {
@@ -88,13 +89,20 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 		});
 	};
 
-	setSession = access_token => {
-		if (access_token) {
-			localStorage.setItem(CAMILLE_RIOT_TOKEN_KEY, access_token);
-			axios.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+	setSession = accessToken => {
+		if (accessToken) {
+			localStorage.setItem(CAMILLE_RIOT_TOKEN_KEY, accessToken);
+
+			const expiresAt = new Date();
+			expiresAt.setMinutes(expiresAt.getMinutes() + 1);
+			localStorage.setItem(CAMILLE_RIOT_TOKEN_EXPIRES_AT, expiresAt.getTime());
+
+			axios.defaults.headers.common.RiotTokenId = accessToken;
 		} else {
 			localStorage.removeItem(CAMILLE_RIOT_TOKEN_KEY);
-			delete axios.defaults.headers.common.Authorization;
+			localStorage.removeItem(CAMILLE_RIOT_TOKEN_EXPIRES_AT);
+
+			delete axios.defaults.headers.common.RiotTokenId;
 		}
 	};
 
@@ -103,15 +111,12 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 	};
 
 	isAuthenticated = () => {
-		if (!this.lock) {
-			return false;
-		}
+		const accessToken = this.getAccessToken();
+		if (!accessToken) return false;
 
-		const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+		const expiresAt = Number(localStorage.getItem(CAMILLE_RIOT_TOKEN_EXPIRES_AT));
 		const isNotExpired = new Date().getTime() < expiresAt;
-		if (isNotExpired) {
-			return true;
-		}
+		if (isNotExpired) return true;
 
 		this.logout();
 		return false;
