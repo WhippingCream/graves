@@ -1,4 +1,4 @@
-import axios from 'axios';
+import createCamilleAxios from 'app/utility/camilleAxios';
 
 export const GET_MYINFO = '[MYINFO] GET MYINFO';
 
@@ -9,16 +9,17 @@ const getAverageDeaths = champData => champData.deaths / getTotalMatchCount(cham
 const getAverageAssists = champData => champData.assists / getTotalMatchCount(champData);
 const getKDA = champData => (getAverageKills(champData) + getAverageAssists(champData)) / getAverageDeaths(champData);
 
-export function getMyInfo(groupId, accountId) {
-	const request = axios.get('/api/user/getInfo', {
+export function getMyInfo(groupId) {
+	const request = createCamilleAxios().get('/api/user/getInfo', {
 		params: {
-			groupId,
-			accountId
+			groupId
 		}
 	});
 
 	return dispatch =>
 		request.then(response => {
+			if (response.status !== 200) return;
+
 			let champScoreArray = response.data.championScore;
 			champScoreArray = champScoreArray.sort((a, b) => {
 				const aTotal = getTotalMatchCount(a);

@@ -72,7 +72,7 @@ function MyInfoPage(props) {
 	};
 
 	useEffect(() => {
-		dispatch(Actions.getMyInfo(user.groupList[0].groupId, user.loginResult.accountId));
+		dispatch(Actions.getMyInfo(user.groupList[0].groupId));
 	}, [dispatch, user]);
 
 	if (!scoreInfo) {

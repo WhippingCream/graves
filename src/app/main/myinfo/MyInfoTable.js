@@ -27,12 +27,12 @@ function MyInfoTable(props) {
 	});
 
 	useEffect(() => {
-		dispatch(Actions.retriveChampionInfo());
+		dispatch(Actions.retrieveChampionInfo());
 	}, [dispatch]);
 
 	useEffect(() => {
 		setData(championScores);
-	}, [championScores]);
+	}, [championInfos, championScores]);
 
 	const handleRequestSort = (event, property) => {
 		const id = property;

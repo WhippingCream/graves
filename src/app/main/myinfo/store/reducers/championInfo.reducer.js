@@ -6,7 +6,7 @@ const initialState = {
 
 const championInfoReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case Actions.RETRIVE_CHAMPION_INFO: {
+		case Actions.RETRIEVE_CHAMPION_INFO: {
 			return {
 				...state,
 				...action.data.data

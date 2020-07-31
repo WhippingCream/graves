@@ -1,10 +1,10 @@
-import axios from 'axios';
+import createCamilleAxios from 'app/utility/camilleAxios';
 
 export const GET_RANKING = '[RANKING] GET RANKING';
 export const SET_SEARCH_TEXT = '[RANKING] SET SEARCH TEXT';
 
 export function getRanking(groupName) {
-	const request = axios.get('/api/group/ranking', { params: { groupName } });
+	const request = createCamilleAxios().get('/api/group/ranking', { params: { groupName } });
 
 	return dispatch =>
 		request.then(response =>

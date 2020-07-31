@@ -1,41 +1,39 @@
 import history from '@history';
 import _ from '@lodash';
 import * as FuseActions from 'app/store/actions/fuse';
+import createCamilleAxios from 'app/utility/camilleAxios';
 
 export const SET_TOKEN_DATA = '[USER] SET TOKEN DATA';
-export const SET_USER_DATA = '[USER] SET DATA';
+export const RETRIEVE_GROUP_LIST = '[USER] RETRIEVE GROUP LIST';
 export const SET_GROUP_LIST = '[USER] SET GROUP LIST';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 
-export function setGroupList(groupList) {
-	return dispatch => {
-		history.location.state = {
-			redirectUrl: 'myinfo'
-		};
+export function retrieveGroupList() {
+	const request = createCamilleAxios().get('/api/user/getGroupList');
 
-		dispatch({
-			type: SET_GROUP_LIST,
-			payload: groupList
-		});
-	};
-}
+	return dispatch =>
+		request
+			.then(response => {
+				if (response.status !== 200) {
+					return;
+				}
 
-export function setUserData(user) {
-	return dispatch => {
-		history.location.state = {
-			redirectUrl: 'myinfo'
-		};
+				history.location.state = {
+					redirectUrl: 'myinfo'
+				};
 
-		// 임시 코드 (by ZeroBoom)
-		user.role = ['admin'];
-		user.reprGroupId = user.groupList[0].groupId;
-
-		dispatch({
-			type: SET_USER_DATA,
-			payload: user
-		});
-	};
+				dispatch({
+					type: RETRIEVE_GROUP_LIST,
+					payload: response.data
+				});
+			})
+			.catch(e => {
+				console.error(e);
+				history.location.state = {
+					redirectUrl: 'login'
+				};
+			});
 }
 
 export function updateUserSettings(settings) {
@@ -45,7 +43,7 @@ export function updateUserSettings(settings) {
 
 		updateUserData(user, dispatch);
 
-		return dispatch(setUserData(user));
+		// return dispatch(setUserData(user));
 	};
 }
 
@@ -62,7 +60,7 @@ export function updateUserShortcuts(shortcuts) {
 
 		updateUserData(newUser, dispatch);
 
-		return dispatch(setUserData(newUser));
+		// return dispatch(setUserData(newUser));
 	};
 }
 export function removeUserData() {

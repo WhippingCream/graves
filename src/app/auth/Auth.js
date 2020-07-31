@@ -25,8 +25,8 @@ class Auth extends Component {
 				}
 			});
 
-			if (camilleRiotAuthService.isAuthenticated()) {
-				this.props.showMessage({ message: 'Logging in with CailleRiotAuth' });
+			if (camilleRiotAuthService.checkAuthenticated()) {
+				this.props.retrieveGroupList();
 				resolve();
 				// camilleRiotAuthService.getUserData().then(tokenData => {
 				// 	this.props.setUserDataCamilleRiotAuth(tokenData);
@@ -46,7 +46,7 @@ function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
 		{
 			logout: userActions.logoutUser,
-			setUserData: userActions.setUserData,
+			retrieveGroupList: userActions.retrieveGroupList,
 			showMessage: Actions.showMessage,
 			hideMessage: Actions.hideMessage
 		},
