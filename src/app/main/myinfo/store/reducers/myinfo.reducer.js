@@ -1,7 +1,8 @@
 import * as Actions from '../actions';
 
 const initialState = {
-	scoreInfo: null
+	scoreInfo: null,
+	isRefreshingChampionScores: false
 };
 
 const myInfoReducer = (state = initialState, action) => {
@@ -12,6 +13,18 @@ const myInfoReducer = (state = initialState, action) => {
 				scoreInfo: action.payload.userInfo,
 				championScore: action.payload.championScore,
 				summonerInfo: action.payload.summonerInfo
+			};
+		}
+		case Actions.TRY_REFRESH_CHAMPION_SCORES: {
+			return {
+				...state,
+				isRefreshingChampionScores: true
+			};
+		}
+		case Actions.REFRESH_CHAMPION_SCORES: {
+			return {
+				...state,
+				isRefreshingChampionScores: false
 			};
 		}
 		default: {

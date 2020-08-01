@@ -55,6 +55,7 @@ function MyInfoPage(props) {
 	const user = useSelector(state => state.auth.user);
 	const scoreInfo = useSelector(({ MyInfo }) => MyInfo.myInfo.scoreInfo);
 	const summonerInfo = useSelector(({ MyInfo }) => MyInfo.myInfo.summonerInfo);
+	const isRefreshingChampionScores = useSelector(({ MyInfo }) => MyInfo.myInfo.isRefreshingChampionScores);
 
 	const getSoloRankTierName = () => {
 		const tier = summonerInfo.rankTier;
@@ -74,6 +75,10 @@ function MyInfoPage(props) {
 	useEffect(() => {
 		dispatch(Actions.getMyInfo(user.groupList[0].groupId));
 	}, [dispatch, user]);
+
+	const refreshChampionScores = () => {
+		dispatch(Actions.refreshChampionScores(user.groupList[0].groupId));
+	};
 
 	if (!scoreInfo) {
 		return <FuseLoading />;
@@ -97,8 +102,12 @@ function MyInfoPage(props) {
 								Lv. {summonerInfo.summonerLevel}
 							</Typography>
 							<br />
-							<Button variant="contained" color="secondary" size="large">
-								챔피언 전적 갱신
+							<Button variant="contained" color="secondary" size="large" onClick={refreshChampionScores}>
+								{isRefreshingChampionScores ? (
+									<FuseLoading isShowingText={false} isLinearProgress={false} />
+								) : (
+									'챔피언 전적 갱신'
+								)}
 							</Button>
 						</Grid>
 					</Grid>

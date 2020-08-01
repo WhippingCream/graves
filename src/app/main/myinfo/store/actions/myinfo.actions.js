@@ -1,6 +1,10 @@
 import createCamilleAxios from 'app/utility/camilleAxios';
 
+const qs = require('querystring');
+
 export const GET_MYINFO = '[MYINFO] GET MYINFO';
+export const REFRESH_CHAMPION_SCORES = '[MYINFO] REFRESH CHAMPION SCORES';
+export const TRY_REFRESH_CHAMPION_SCORES = '[MYINFO] TRY REFRESH CHAMPION SCORES';
 
 const getTotalMatchCount = champData => champData.win + champData.lose;
 const getWinRate = champData => Math.ceil((champData.win / getTotalMatchCount(champData)) * 100);
@@ -48,4 +52,22 @@ export function getMyInfo(groupId) {
 				payload: response.data
 			});
 		});
+}
+
+export function refreshChampionScores(groupId) {
+	return dispatch => {
+		dispatch({
+			type: TRY_REFRESH_CHAMPION_SCORES
+		});
+
+		const request = createCamilleAxios().post('/api/user/calculateChampionScore', qs.stringify({ groupId }));
+
+		request.then(response => {
+			if (response.status !== 200) return;
+
+			dispatch({
+				type: REFRESH_CHAMPION_SCORES
+			});
+		});
+	};
 }
