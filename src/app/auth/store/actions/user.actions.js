@@ -2,6 +2,7 @@ import history from '@history';
 import _ from '@lodash';
 import * as FuseActions from 'app/store/actions/fuse';
 import createCamilleAxios from 'app/utility/camilleAxios';
+import CamilleRiotAuthService from 'app/services/camilleRiotAuthService';
 
 export const SET_TOKEN_DATA = '[USER] SET TOKEN DATA';
 export const RETRIEVE_GROUP_LIST = '[USER] RETRIEVE GROUP LIST';
@@ -78,18 +79,11 @@ export function logoutUser() {
 			return null;
 		}
 
+		CamilleRiotAuthService.logout();
+
 		history.push({
 			pathname: '/'
 		});
-
-		switch (user.from) {
-			case 'firebase':
-				break;
-			case 'auth0':
-				break;
-			default:
-				break;
-		}
 
 		dispatch(FuseActions.setInitialSettings());
 
