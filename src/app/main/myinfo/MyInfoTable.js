@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { getKDAColor, getWinRateColor } from 'app/utility/statisticsColor';
 import * as Actions from './store/actions';
 import MyInfoTableHead from './MyInfoTableHeader';
 
@@ -95,12 +96,12 @@ function MyInfoTable(props) {
 											</TableCell>
 
 											<TableCell component="th" scope="row">
-												{n.win}승 {n.lose}패 {n.winRate}%
+												{n.win}승 {n.lose}패 <font color={getWinRateColor(n.winRate)}>{n.winRate}%</font>
 											</TableCell>
 
 											<TableCell component="th" scope="row">
-												{n.kda.toFixed(2)} ({n.averageKills.toFixed(1)} / {n.averageDeaths.toFixed(1)} /{' '}
-												{n.averageAssists.toFixed(1)})
+												<font color={getKDAColor(n.kda)}>{n.kda.toFixed(2)}</font> ({n.averageKills.toFixed(1)} /{' '}
+												{n.averageDeaths.toFixed(1)} / {n.averageAssists.toFixed(1)})
 											</TableCell>
 										</TableRow>
 									);
