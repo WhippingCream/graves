@@ -2,7 +2,8 @@ import * as Actions from '../actions';
 
 const initialState = {
 	data: [],
-	searchText: ''
+	searchText: '',
+	isRefreshingGroupRating: false
 };
 
 const rankingReducer = (state = initialState, action) => {
@@ -17,6 +18,18 @@ const rankingReducer = (state = initialState, action) => {
 			return {
 				...state,
 				searchText: action.searchText
+			};
+		}
+		case Actions.TRY_REFRESH_GROUP_RATING: {
+			return {
+				...state,
+				isRefreshingGroupRating: true
+			};
+		}
+		case Actions.REFRESH_GROUP_RATING: {
+			return {
+				...state,
+				isRefreshingGroupRating: false
 			};
 		}
 		default: {
