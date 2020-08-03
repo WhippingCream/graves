@@ -17,6 +17,7 @@ function RankingTable(props) {
 		return Ranking.ranking.data;
 	});
 	const searchText = useSelector(({ Ranking }) => Ranking.ranking.searchText);
+	const isRefreshingGroupRating = useSelector(({ Ranking }) => Ranking.ranking.isRefreshingGroupRating);
 
 	const [data, setData] = useState(ranking);
 	const [page, setPage] = useState(0);
@@ -30,7 +31,7 @@ function RankingTable(props) {
 
 	useEffect(() => {
 		dispatch(Actions.getRanking(groupName));
-	}, [dispatch, groupName]);
+	}, [dispatch, groupName, isRefreshingGroupRating]);
 
 	useEffect(() => {
 		if (searchText.length !== 0) {
