@@ -56,9 +56,15 @@ function RankingHeader(props) {
 				</ThemeProvider>
 			</div>
 			<div>
-				<Button variant="contained" color="secondary" size="large" onClick={onRefreshGroupRating}>
-					{isRefreshingGroupRating ? <FuseLoading isShowingText={false} isLinearProgress={false} /> : '그룹 전적 갱신'}
-				</Button>
+				<FuseAnimate animation="transition.slideRightIn" delay={300}>
+					<Button variant="contained" color="secondary" size="large" onClick={onRefreshGroupRating}>
+						{isRefreshingGroupRating ? (
+							<FuseLoading isShowingText={false} isLinearProgress={false} />
+						) : (
+							'그룹 전적 갱신'
+						)}
+					</Button>
+				</FuseAnimate>
 			</div>
 		</div>
 	);
