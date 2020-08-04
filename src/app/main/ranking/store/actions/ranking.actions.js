@@ -34,9 +34,7 @@ export function refreshGroupRating(groupName) {
 
 		const request = createCamilleAxios().post('/api/group/refresh-rating', qs.stringify({ groupName }));
 
-		request.then(response => {
-			if (response.status !== 200) return;
-
+		request.finally(() => {
 			dispatch({
 				type: REFRESH_GROUP_RATING
 			});
