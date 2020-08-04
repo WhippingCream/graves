@@ -9,8 +9,8 @@ import { darken } from '@material-ui/core/styles/colorManipulator';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import clsx from 'clsx';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import * as authActions from 'app/auth/store/actions';
 
 const useStyles = makeStyles(theme => ({
@@ -26,11 +26,10 @@ function LoginPage() {
 
 	const { form, handleChange, resetForm } = useForm({
 		id: '',
-		password: '',
-		remember: true
+		password: ''
 	});
 
-	const [isPending, setPending] = useState(false);
+	const isPending = useSelector(({ auth }) => auth.login.isPending);
 
 	function isFormValid() {
 		return form.id.length > 0 && form.password.length > 0;
@@ -40,7 +39,6 @@ function LoginPage() {
 		dispatch(authActions.submitLogin(form));
 		ev.preventDefault();
 		resetForm();
-		setPending(true);
 	}
 
 	if (isPending) return <FuseSplashScreen />;

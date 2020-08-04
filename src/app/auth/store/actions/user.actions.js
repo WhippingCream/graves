@@ -1,7 +1,12 @@
 import history from '@history';
 import _ from '@lodash';
+import React from 'react';
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import * as FuseActions from 'app/store/actions/fuse';
-import createCamilleAxios from 'app/utility/camilleAxios';
 import CamilleRiotAuthService from 'app/services/camilleRiotAuthService';
 
 export const SET_TOKEN_DATA = '[USER] SET TOKEN DATA';
@@ -11,12 +16,36 @@ export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
 
 export function retrieveGroupList() {
+	const createCamilleAxios = require('app/utility/camilleAxios').default;
 	const request = createCamilleAxios().get('/api/user/getGroupList');
 
 	return dispatch =>
 		request
 			.then(response => {
-				if (response.status !== 200) {
+				const noGroup = response.data.length === 0;
+				if (noGroup) {
+					dispatch(logoutUser());
+					dispatch(
+						FuseActions.openDialog({
+							children: (
+								<>
+									<DialogTitle id="alert-dialog-title">에러 발생!</DialogTitle>
+									<DialogContent>
+										<DialogContentText id="alert-dialog-description">
+											이 계정이 포함되어 있는 그룹이 없습니다. <br />
+											그룹에 등록되어 있는 계정이어야 합니다. <br />
+											그룹 관리자에게 문의하세요.
+										</DialogContentText>
+									</DialogContent>
+									<DialogActions>
+										<Button onClick={() => dispatch(FuseActions.closeDialog())} color="primary" autoFocus>
+											확인
+										</Button>
+									</DialogActions>
+								</>
+							)
+						})
+					);
 					return;
 				}
 
@@ -72,13 +101,6 @@ export function removeUserData() {
 
 export function logoutUser() {
 	return (dispatch, getState) => {
-		const { user } = getState().auth;
-
-		if (!user.role || user.role.length === 0) {
-			// is guest
-			return null;
-		}
-
 		CamilleRiotAuthService.logout();
 
 		history.push({

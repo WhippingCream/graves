@@ -1,11 +1,16 @@
 import camilleRiotAuthService from 'app/services/camilleRiotAuthService';
 import * as UserActions from './user.actions';
 
+export const TRY_LOGIN = 'TRY_LOGIN';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
 export function submitLogin({ id, password }) {
-	return dispatch =>
+	return dispatch => {
+		dispatch({
+			type: TRY_LOGIN
+		});
+
 		camilleRiotAuthService
 			.signInWithIdAndPassword(id, password)
 			.then(user => {
@@ -22,4 +27,5 @@ export function submitLogin({ id, password }) {
 					payload: error
 				});
 			});
+	};
 }
