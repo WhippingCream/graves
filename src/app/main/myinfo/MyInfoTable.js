@@ -64,7 +64,7 @@ function MyInfoTable(props) {
 
 	const getChampImageURI = champId => {
 		const info = getChampInfo(champId);
-		return `http://ddragon.leagueoflegends.com/cdn/${championInfos.version}/img/champion/${info.id}.png`;
+		return `https://ddragon.leagueoflegends.com/cdn/${championInfos.version}/img/champion/${info.id}.png`;
 	};
 
 	if (!championInfos.data) {
