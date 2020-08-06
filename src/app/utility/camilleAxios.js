@@ -27,7 +27,7 @@ const createCamilleAxios = () => {
 							<DialogContent>
 								<DialogContentText id="alert-dialog-description">
 									{error.config.url} <br />
-									{error.response.status}: {error.response.data.result}
+									{error.response ? error.response.status : ''}: {error.response ? error.response.data.result : ''}
 								</DialogContentText>
 							</DialogContent>
 							<DialogActions>
