@@ -12,6 +12,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 const createCamilleAxios = () => {
 	const instance = axios.create();
 
+	instance.defaults.baseURL = process.env.REACT_APP_CAMILLE_HOST;
 	instance.defaults.headers.common.RiotTokenId = camilleRiotAuthService.getAccessToken();
 	instance.interceptors.response.use(
 		response => {
