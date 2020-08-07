@@ -14,9 +14,9 @@ const useStyles = makeStyles(theme => ({
 	layoutRoot: {},
 	media: {
 		alignItems: 'center',
-		padding: 30,
-		width: 120,
-		height: 120
+		padding: 10,
+		width: 150,
+		height: 150
 	},
 	card: {
 		display: 'flex',
@@ -119,7 +119,8 @@ function MyInfoPage(props) {
 							<Card className={classes.card}>
 								<CardMedia
 									className={classes.media}
-									image={`/assets/images/ranked-emblems/Emblem_${getSoloRankTierName()}.png`}
+									component="img"
+									src={`/assets/images/ranked-emblems/Emblem_${getSoloRankTierName()}.png`}
 								/>
 								<div className={classes.details}>
 									<CardContent className={classes.content}>
@@ -143,7 +144,8 @@ function MyInfoPage(props) {
 							<Card className={classes.card}>
 								<CardMedia
 									className={classes.media}
-									image={`/assets/images/ranked-emblems/Emblem_${getRatingTierName()}.png`}
+									component="img"
+									src={`/assets/images/ranked-emblems/Emblem_${getRatingTierName()}.png`}
 								/>
 								<div className={classes.details}>
 									<CardContent className={classes.content}>
