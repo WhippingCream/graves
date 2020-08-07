@@ -69,7 +69,7 @@ function MyInfoPage(props) {
 	};
 
 	const getProfileIconURI = () => {
-		return `https://ddragon.leagueoflegends.com/cdn/10.15.1/img/profileicon/${summonerInfo.profileIconId}.png`;
+		return `https://ddragon.leagueoflegends.com/cdn/${process.env.REACT_APP_RIOT_DATA_VERSION}/img/profileicon/${summonerInfo.profileIconId}.png`;
 	};
 
 	useEffect(() => {
