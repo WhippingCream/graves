@@ -14,16 +14,15 @@ const user = (state = initialState, action) => {
 			const groupList = action.payload;
 			if (groupList.length === 0) return { ...initialState };
 
-			const reprGroupId = groupList[0].groupId;
-			const { groupName } = groupList.find(elem => elem.groupId === reprGroupId);
+			const reprGroup = groupList[0];
 			return {
 				...initialState,
 				groupList,
-				reprGroupId,
+				reprGroup,
 				role: ['admin'], // 임시코드 (by ZeroBoom)
 				data: {
 					...initialState.data,
-					displayName: groupName
+					displayName: reprGroup.groupName
 				}
 			};
 		}

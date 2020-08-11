@@ -18,7 +18,7 @@ function RankingHeader(props) {
 	const user = useSelector(state => state.auth.user);
 
 	const onRefreshGroupRating = () => {
-		dispatch(Actions.refreshGroupRating(user.groupList[0].groupName));
+		dispatch(Actions.refreshGroupRating(user.reprGroup.groupName));
 	};
 
 	return (

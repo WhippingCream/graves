@@ -75,11 +75,11 @@ function MyInfoPage(props) {
 	useEffect(() => {
 		if (isRefreshingChampionScores) return;
 
-		dispatch(Actions.getMyInfo(user.groupList[0].groupId));
+		dispatch(Actions.getMyInfo(user.reprGroup.groupId));
 	}, [dispatch, user, isRefreshingChampionScores]);
 
 	const refreshChampionScores = () => {
-		dispatch(Actions.refreshChampionScores(user.groupList[0].groupId));
+		dispatch(Actions.refreshChampionScores(user.reprGroup.groupId));
 	};
 
 	if (!scoreInfo) {
