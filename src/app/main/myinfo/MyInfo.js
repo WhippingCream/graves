@@ -156,8 +156,9 @@ function MyInfoPage(props) {
 											{scoreInfo.ratingTier}
 										</TierTextTypography>
 										<RatingTextTypography variant="body1" gutterBottom>
-											{scoreInfo.defaultRating + scoreInfo.additionalRating}p ({scoreInfo.defaultRating} +{' '}
-											{scoreInfo.additionalRating})
+											{scoreInfo.defaultRating + scoreInfo.additionalRating}p ({scoreInfo.defaultRating}{' '}
+											{scoreInfo.additionalRating >= 0 ? '+ ' : '- '}
+											{Math.abs(scoreInfo.additionalRating)})
 										</RatingTextTypography>
 										<Typography variant="body2" color="textSecondary">
 											{scoreInfo.win}승 {scoreInfo.lose}패
