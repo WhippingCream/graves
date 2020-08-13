@@ -8,6 +8,19 @@ const initialState = {
 	}
 };
 
+const generateReprGroupState = (groupList, reprGroup) => {
+	return {
+		...initialState,
+		groupList,
+		reprGroup,
+		role: ['admin'], // 임시코드 (by ZeroBoom)
+		data: {
+			...initialState.data,
+			displayName: reprGroup.groupName
+		}
+	};
+};
+
 const user = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.RETRIEVE_GROUP_LIST: {
@@ -15,16 +28,17 @@ const user = (state = initialState, action) => {
 			if (groupList.length === 0) return { ...initialState };
 
 			const reprGroup = groupList[0];
-			return {
-				...initialState,
-				groupList,
-				reprGroup,
-				role: ['admin'], // 임시코드 (by ZeroBoom)
-				data: {
-					...initialState.data,
-					displayName: reprGroup.groupName
-				}
-			};
+			return generateReprGroupState(groupList, reprGroup);
+		}
+		case Actions.CHANGE_GROUP: {
+			const { groupList } = state;
+			if (groupList.length === 0) return { ...initialState };
+
+			const idx = groupList.findIndex(elem => elem.groupId === action.groupId);
+			if (idx === -1) return { ...initialState };
+
+			const reprGroup = groupList[idx];
+			return generateReprGroupState(groupList, reprGroup);
 		}
 		case Actions.REMOVE_USER_DATA: {
 			return {

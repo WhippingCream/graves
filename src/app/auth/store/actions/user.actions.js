@@ -14,6 +14,7 @@ export const RETRIEVE_GROUP_LIST = '[USER] RETRIEVE GROUP LIST';
 export const SET_GROUP_LIST = '[USER] SET GROUP LIST';
 export const REMOVE_USER_DATA = '[USER] REMOVE DATA';
 export const USER_LOGGED_OUT = '[USER] LOGGED OUT';
+export const CHANGE_GROUP = '[USER] CHANGE GROUP';
 
 export function retrieveGroupList() {
 	const createCamilleAxios = require('app/utility/camilleAxios').default;
@@ -111,6 +112,15 @@ export function logoutUser() {
 
 		return dispatch({
 			type: USER_LOGGED_OUT
+		});
+	};
+}
+
+export function changeGroup(groupId) {
+	return dispatch => {
+		return dispatch({
+			type: CHANGE_GROUP,
+			groupId
 		});
 	};
 }
