@@ -1,6 +1,7 @@
 import FuseScrollbars from '@fuse/core/FuseScrollbars';
 import FuseLoading from '@fuse/core/FuseLoading';
 import _ from '@lodash';
+import getLatesetRiotDataVersion from 'app/utility/getLatesetRiotDataVersion';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -64,7 +65,7 @@ function MyInfoTable(props) {
 
 	const getChampImageURI = champId => {
 		const info = getChampInfo(champId);
-		return `https://ddragon.leagueoflegends.com/cdn/${process.env.REACT_APP_RIOT_DATA_VERSION}/img/champion/${info.id}.png`;
+		return `https://ddragon.leagueoflegends.com/cdn/${getLatesetRiotDataVersion()}/img/champion/${info.id}.png`;
 	};
 
 	if (!championInfos.data) {

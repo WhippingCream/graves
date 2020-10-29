@@ -66,6 +66,10 @@ function UserNavbarHeader(props) {
 		onGroupListClose();
 	};
 
+	if (!user.groupList) {
+		return null;
+	}
+
 	return (
 		<AppBar
 			position="static"
