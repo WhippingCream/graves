@@ -1,10 +1,11 @@
 import axios from 'axios';
+import getLatesetRiotDataVersion from 'app/utility/getLatesetRiotDataVersion';
 
 export const RETRIEVE_CHAMPION_INFO = '[RIOT] RETRIEVE_CHAMPION_INFO';
 
 export function retrieveChampionInfo() {
 	const request = axios.get(
-		`https://ddragon.leagueoflegends.com/cdn/${process.env.REACT_APP_RIOT_DATA_VERSION}/data/ko_KR/champion.json`
+		`https://ddragon.leagueoflegends.com/cdn/${getLatesetRiotDataVersion()}/data/ko_KR/champion.json`
 	);
 
 	return dispatch =>

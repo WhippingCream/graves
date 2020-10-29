@@ -5,6 +5,7 @@ import { Grid, Card, CardContent, Typography, CardMedia, Button, withStyles } fr
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import withReducer from 'app/store/withReducer';
+import getLatesetRiotDataVersion from 'app/utility/getLatesetRiotDataVersion';
 import MyInfoHeader from './MyInfoHeader';
 import MyInfoTable from './MyInfoTable';
 import reducer from './store/reducers';
@@ -69,7 +70,7 @@ function MyInfoPage(props) {
 	};
 
 	const getProfileIconURI = () => {
-		return `https://ddragon.leagueoflegends.com/cdn/${process.env.REACT_APP_RIOT_DATA_VERSION}/img/profileicon/${summonerInfo.profileIconId}.png`;
+		return `https://ddragon.leagueoflegends.com/cdn/${getLatesetRiotDataVersion()}/img/profileicon/${summonerInfo.profileIconId}.png`;
 	};
 
 	useEffect(() => {
