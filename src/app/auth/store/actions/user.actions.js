@@ -23,7 +23,8 @@ export function retrieveGroupList() {
 	return dispatch =>
 		request
 			.then(response => {
-				const noGroup = response.data.length === 0;
+				const groupList = response.data.result;
+				const noGroup = groupList.length === 0;
 				if (noGroup) {
 					dispatch(logoutUser());
 					dispatch(
@@ -56,7 +57,7 @@ export function retrieveGroupList() {
 
 				dispatch({
 					type: RETRIEVE_GROUP_LIST,
-					payload: response.data
+					payload: groupList
 				});
 			})
 			.catch(e => {

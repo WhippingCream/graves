@@ -24,7 +24,8 @@ export function getMyInfo(groupId) {
 		request.then(response => {
 			if (response.status !== 200) return;
 
-			let champScoreArray = response.data.championScore;
+			const result = response.data.result;
+			let champScoreArray = result.championScore;
 			champScoreArray = champScoreArray.sort((a, b) => {
 				const aTotal = getTotalMatchCount(a);
 				const bTotal = getTotalMatchCount(b);
@@ -45,11 +46,11 @@ export function getMyInfo(groupId) {
 				};
 			});
 
-			response.data.championScore = champScoreArray;
+			result.championScore = champScoreArray;
 
 			dispatch({
 				type: GET_MYINFO,
-				payload: response.data
+				payload: result
 			});
 		});
 }
