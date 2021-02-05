@@ -31,7 +31,7 @@ class CamilleRiotAuthService extends FuseUtils.EventEmitter {
 		return new Promise((resolve, reject) => {
 			const createCamilleAxios = require('app/utility/camilleAxios').default;
 			createCamilleAxios()
-				.post('/api/user/login', qs.stringify({ id, password }))
+				.post('/api/user/login', { id, password })
 				.then(response => {
 					if (response.status === 200) {
 						this.setSession(response.data.loginResult.token);
