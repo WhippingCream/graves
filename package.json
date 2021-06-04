@@ -10,7 +10,7 @@
 		"@material-ui/icons": "4.9.1",
 		"@material-ui/lab": "4.0.0-alpha.49",
 		"@material-ui/pickers": "3.2.10",
-		"auth0-lock": "11.26.0",
+		"auth0-lock": "11.30.1",
 		"autosuggest-highlight": "3.1.1",
 		"axios": "0.21.1",
 		"axios-mock-adapter": "1.18.1",
